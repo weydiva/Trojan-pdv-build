@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  watch:
+    types: [started]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Initialize environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo apt-get -y install p7zip-full
+    - name: Build
+      run: |
+        make all ARCH=mips24kec BUILD_STATIC=y && mv trojan trojan-mips24kec-uclibc-static
+        make clean
+        make all ARCH=mips1004kec BUILD_STATIC=y && mv trojan trojan-mips1004kec-uclibc-static
+        make clean
+        make all ARCH=aarch64 BUILD_STATIC=y && mv trojan trojan-aarch64-musl-static
+        make clean
+        make all ARCH=armhf BUILD_STATIC=y && mv trojan trojan-armhf-musl-static
+        mkdir -p /opt/images
+        mv -f trojan-* /opt/images/
+      - name: Upload packages
+        uses: actions/upload-artifact@master
+        with: 
+          name: trojan-release
+          path: /opt/images
