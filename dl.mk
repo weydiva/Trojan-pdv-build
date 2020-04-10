@@ -2,7 +2,7 @@ Trojan_VERSION ?= 1.14.1
 Trojan_SRC := trojan-$(Trojan_VERSION)
 Trojan_URL := https://github.com/trojan-gfw/trojan/archive/v$(Trojan_VERSION).tar.gz
 
-OpenSSL_VERSION := 1.1.1d
+OpenSSL_VERSION := 1.1.1f
 OpenSSL_SRC := openssl-$(OpenSSL_VERSION)
 OpenSSL_URL := https://www.openssl.org/source/$(OpenSSL_SRC).tar.gz
 
